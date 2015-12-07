@@ -1,6 +1,11 @@
 <?php
 
-include(__DIR__ . '/day_1.php');
-include(__DIR__ . '/day_2.php');
-include(__DIR__ . '/day_3.php');
-include(__DIR__ . '/day_4.php');
+for ($day = 1; $day <= 24; $day++) {
+    $filename = __DIR__ . '/day_' . $day . '.php';
+
+    if (!file_exists($filename)) {
+        break;
+    }
+
+    include($filename);
+}
