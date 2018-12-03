@@ -1,0 +1,14 @@
+{
+    "name": "lopi/advent-of-code",
+    "description": "To describe",
+    "type": "project",
+    "require": {
+        "symfony/console": "^4.2"
+    },
+    "authors": [
+        {
+            "name": "Pierre-Louis Launay",
+            "email": "laupi.frpar@gmail.com"
+        }
+    ]
+}
