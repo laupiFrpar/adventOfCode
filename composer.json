@@ -10,5 +10,10 @@
             "name": "Pierre-Louis Launay",
             "email": "laupi.frpar@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lopi\\AdventOfCode\\": "src/"
+        }
+    }
 }

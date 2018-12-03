@@ -2,8 +2,8 @@
 <?php
 
 require __DIR__.'/vendor/autoload.php';
-require './AdventOfCodeCommand.php';
 
+use Lopi\AdventOfCode\AdventOfCodeCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
