@@ -2,6 +2,8 @@
 
 namespace Lopi\AdventOfCode;
 
+use Symfony\Component\Console\Exception\LogicException;
+
 /**
  * @author Pierre-Louis Launay <laupi.frpar@gmail.com>
  */
@@ -16,7 +18,7 @@ class DayFactory
     public static function createDay($day, $year)
     {
         if (24 < $day) {
-            return null;
+            throw LogicException('The advent calendar contains only 24 days');
         }
 
         $className = 'Lopi\\AdventOfCode\\Days\\Year_'.$year.'\\Day'.$day;
