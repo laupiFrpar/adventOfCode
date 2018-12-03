@@ -65,11 +65,64 @@ DESCRIPTION;
     public function getPartTwoDescription() :string
     {
         return <<<DESCRIPTION
+Confident that your list of box IDs is complete, you're ready to find the boxes
+full of prototype fabric.
+
+The boxes will have IDs which differ by exactly one character at the same
+position in both strings. For example, given the following box IDs:
+
+abcde
+fghij
+klmno
+pqrst
+fguij
+axcye
+wvxyz
+
+The IDs abcde and axcye are close, but they differ by two characters (the
+second and fourth). However, the IDs fghij and fguij differ by exactly one
+character, the third (h and u). Those must be the correct boxes.
+
+What letters are common between the two correct box IDs? (In the example above,
+this is found by removing the differing character from either ID, producing
+fgij.)
 DESCRIPTION;
     }
 
     public function getResult() :array
     {
-        return [];
+        return [$this->getChecksum()];
+    }
+
+    private function getChecksum()
+    {
+        $frequencies = ['twice' => 0, 'three_times' => 0];
+
+        foreach ($this->getData() as $data) {
+            foreach ($this->getFrequencyLetters($data) as $frequencyLetter) {
+                if ($frequencyLetter === 2) {
+                    $frequencies['twice']++;
+                } elseif ($frequencyLetter === 3) {
+                    $frequencies['three_times']++;
+                }
+            };
+        }
+
+        return $frequencies['twice'] * $frequencies['three_times'];
+    }
+
+    private function getFrequencyLetters($data)
+    {
+        $frequencyLetters = [];
+
+        foreach (str_split(trim($data)) as $letter) {
+            if (array_key_exists($letter, $frequencyLetters)) {
+                $frequencyLetters[$letter]++;
+            } else {
+                $frequencyLetters[$letter] = 1;
+            }
+        }
+
+        return array_unique($frequencyLetters);
     }
 }
