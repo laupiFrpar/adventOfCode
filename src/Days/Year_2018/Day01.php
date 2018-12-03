@@ -142,4 +142,9 @@ DESCRIPTION;
 
         return $found;
     }
+
+    protected function getFilename() :string
+    {
+        return 'day_01.txt';
+    }
 }

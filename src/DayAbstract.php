@@ -12,12 +12,19 @@ abstract class DayAbstract implements DayInterface
         $this->test = $test;
     }
 
-    public function getData()
+    protected function getData()
     {
         if (!$this->data) {
-            $this->data = file(__DIR__.'/Days/Year_'.$this::YEAR.'/data/day_'.$this::DAY.($this->test ? '_test' : '').'.txt');
+            $this->data = file($this->getDirectory().'/'.$this->getFilename());
         }
 
         return $this->data;
     }
+
+    protected function getDirectory() :string
+    {
+        return __DIR__;
+    }
+
+    abstract protected function getFilename() :string;
 }

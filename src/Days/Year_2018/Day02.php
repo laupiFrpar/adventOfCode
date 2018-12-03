@@ -94,6 +94,11 @@ DESCRIPTION;
         return [$this->getChecksum()];
     }
 
+    protected function getFilename() :string
+    {
+        return 'day_02.txt';
+    }
+
     private function getChecksum()
     {
         $frequencies = ['twice' => 0, 'three_times' => 0];
