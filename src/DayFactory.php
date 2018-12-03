@@ -18,7 +18,7 @@ class DayFactory
     public static function createDay($day, $year)
     {
         if (24 < $day) {
-            throw LogicException('The advent calendar contains only 24 days');
+            throw new LogicException('The advent calendar contains only 24 days');
         }
 
         $className = 'Lopi\\AdventOfCode\\Days\\Year_'.$year.'\\Day'.$day;
