@@ -7,6 +7,8 @@ namespace Lopi\AdventOfCode;
  */
 interface DayInterface
 {
-    public function getDescription();
-    public function getResult();
+    public function getTitle() :string;
+    public function getDescription() :string;
+    public function getPartTwoDescription() :string;
+    public function getResult() :array;
 }
