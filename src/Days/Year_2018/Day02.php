@@ -98,6 +98,7 @@ DESCRIPTION;
         }
 
         if (DayInterface::ALL_PART === $part || DayInterface::SECOND_PART === $part) {
+            $result[] = $this->getBoxId();
         }
 
         return $result;
@@ -112,8 +113,8 @@ DESCRIPTION;
     {
         $frequencies = ['twice' => 0, 'three_times' => 0];
 
-        foreach ($this->getData() as $data) {
-            foreach ($this->getFrequencyLetters($data) as $frequencyLetter) {
+        foreach ($this->getData() as $string) {
+            foreach ($this->getFrequencyLetters($string) as $frequencyLetter) {
                 if ($frequencyLetter === 2) {
                     $frequencies['twice']++;
                 } elseif ($frequencyLetter === 3) {
@@ -125,11 +126,11 @@ DESCRIPTION;
         return $frequencies['twice'] * $frequencies['three_times'];
     }
 
-    private function getFrequencyLetters($data): array
+    private function getFrequencyLetters($string): array
     {
         $frequencyLetters = [];
 
-        foreach (str_split(trim($data)) as $letter) {
+        foreach (str_split(trim($string)) as $letter) {
             if (array_key_exists($letter, $frequencyLetters)) {
                 $frequencyLetters[$letter]++;
             } else {
@@ -138,5 +139,48 @@ DESCRIPTION;
         }
 
         return array_unique($frequencyLetters);
+    }
+
+    private function getBoxId()
+    {
+        $boxId = null;
+
+        foreach ($this->getData() as $string1) {
+            $string1AsArray = str_split($string1);
+
+            foreach ($this->getData() as $string2) {
+                if ($string1 === $string2) {
+                    continue;
+                }
+
+                if ($this->isClose($string1, $string2)) {
+                    $boxId = array_filter(
+                        str_split($string2),
+                        function ($value, $key) use ($string1AsArray) {
+                            return $value === $string1AsArray[$key];
+                        },
+                        ARRAY_FILTER_USE_BOTH
+                    );
+                    $boxId = implode('', $boxId);
+                }
+            }
+        }
+
+        return $boxId;
+    }
+
+    private function isClose($string1, $string2): bool
+    {
+        $string1 = str_split($string1);
+        $string2 = str_split($string2);
+        $countDiff = 0;
+
+        foreach ($string1 as $key => $letter) {
+            if ($letter !== $string2[$key]) {
+                $countDiff++;
+            }
+        }
+
+        return $countDiff === 1;
     }
 }
