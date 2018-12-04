@@ -9,6 +9,12 @@ use Lopi\AdventOfCode\DayInterface;
  */
 class Day03 extends Day2018Abstract
 {
+    const OVERLAP_CLAIM = 'X';
+    const NO_CLAIM = '.';
+
+    private $fabric;
+    private $intactClaimIds = [];
+
     public function getTitle(): string
     {
         return 'Day 3: No Matter How You Slice It';
@@ -81,19 +87,28 @@ DESCRIPTION;
     public function getPartTwoDescription(): string
     {
         return <<<DESCRIPTION
+Amidst the chaos, you notice that exactly one claim doesn't overlap by even a
+single square inch of fabric with any other claim. If you can somehow draw
+attention to it, maybe the Elves will be able to make Santa's suit after all!
+
+For example, in the claims above, only claim 3 is intact after all claims are
+made.
+
+What is the ID of the only claim that doesn't overlap?
 DESCRIPTION;
     }
 
     public function getResult(int $part = DayInterface::ALL_PART): array
     {
         $result = [];
+        $this->makeFabric();
 
         if (DayInterface::ALL_PART === $part || DayInterface::FIRST_PART === $part) {
-            // $result[] = $this->getChecksum();
+            $result[] = $this->getTotalOverlapedClaims();
         }
 
         if (DayInterface::ALL_PART === $part || DayInterface::SECOND_PART === $part) {
-            // $result[] = $this->getBoxId();
+            $result[] = join(',', $this->intactClaimIds);
         }
 
         return $result;
@@ -102,5 +117,75 @@ DESCRIPTION;
     protected function getFilename(): string
     {
         return 'day_03.txt';
+    }
+
+    private function getTotalOverlapedClaims(): int
+    {
+        $overlapedClaim = 0;
+
+        foreach ($this->fabric as $line) {
+            foreach ($line as $square) {
+                if ($square === self::OVERLAP_CLAIM) {
+                    $overlapedClaim++;
+                }
+            }
+        }
+
+        return $overlapedClaim;
+    }
+
+    private function makeFabric(): void
+    {
+        $this->fillFabric();
+
+        foreach ($this->getData() as $line) {
+            if (preg_match('/#(\d+)\s+@\s+(\d+),(\d+):\s+(\d+)x(\d+)/', $line, $matches)) {
+                $this->fillFabric($matches[1], $matches[2], $matches[3], $matches[4], $matches[5]);
+            }
+        }
+    }
+
+    private function fillFabric(
+        string $content = self::NO_CLAIM,
+        int $top = 0,
+        int $left = 0,
+        int $tall = 1000,
+        int $wide = 1000
+    ): void {
+        $isIntactClaim = true;
+
+        for ($i = $left; $i < ($wide + $left); $i++) {
+            for ($j = $top; $j < ($tall + $top); $j++) {
+                if (!isset($this->fabric[$i][$j]) || $this->fabric[$i][$j] === self::NO_CLAIM) {
+                    $this->fabric[$i][$j] = $content;
+                } else {
+                    if ($this->fabric[$i][$j] !== self::OVERLAP_CLAIM) {
+                        unset($this->intactClaimIds[$this->fabric[$i][$j]]);
+                    }
+
+                    $this->fabric[$i][$j] = self::OVERLAP_CLAIM;
+                    $isIntactClaim = false;
+                }
+            }
+        }
+
+        if ($isIntactClaim && $content !== self::NO_CLAIM) {
+            $this->intactClaimIds[$content] = $content;
+        }
+    }
+
+    /**
+     * Use to debug
+     */
+    private function showFabric(): void
+    {
+        echo "\r\n";
+        echo "Fabric\r\n\r\n";
+        for ($i = 0; $i < count($this->fabric); $i++) {
+            for ($j = 0; $j < count($this->fabric[$i]); $j++) {
+                echo $this->fabric[$i][$j];
+            }
+            echo "\r\n";
+        }
     }
 }

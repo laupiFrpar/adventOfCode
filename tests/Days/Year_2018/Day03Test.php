@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 final class Day02Test extends TestCase
 {
-    public function testPartOne_1(): void
+    public function testPartOne(): void
     {
         $day = new Day03();
         $day->setData(['#1 @ 1,3: 4x4', '#2 @ 3,1: 4x4', '#3 @ 5,5: 2x2']);
@@ -19,5 +19,10 @@ final class Day02Test extends TestCase
 
     public function testPartTwo(): void
     {
+        $day = new Day03();
+        $day->setData(['#1 @ 1,3: 4x4', '#2 @ 3,1: 4x4', '#3 @ 5,5: 2x2']);
+        $result = $day->getResult(DayInterface::SECOND_PART);
+
+        $this->assertEquals(3, $result[0]);
     }
 }
