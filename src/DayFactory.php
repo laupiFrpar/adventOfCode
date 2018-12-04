@@ -15,7 +15,7 @@ class DayFactory
      *
      * @return DayAbstract
      */
-    public static function createDay($day, $year)
+    public static function createDay($day, $year): DayAbstract
     {
         if (24 < $day) {
             throw new LogicException('The advent calendar contains only 24 days');

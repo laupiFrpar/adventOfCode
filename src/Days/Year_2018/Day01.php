@@ -2,19 +2,19 @@
 
 namespace Lopi\AdventOfCode\Days\Year_2018;
 
+use Lopi\AdventOfCode\DayInterface;
+
 /**
  * @author Pierre-Louis Launay <laupi.frpar@gmail.com>
  */
 class Day01 extends Day2018Abstract
 {
-    const DAY = '01';
-
-    public function getTitle() :string
+    public function getTitle(): string
     {
         return 'Day 1: Chronal Calibration';
     }
 
-    public function getDescription() :string
+    public function getDescription(): string
     {
         return <<<DESCRIPTION
 "We've detected some temporal anomalies," one of Santa's Elves at the Temporal
@@ -66,7 +66,7 @@ the changes in frequency have been applied?
 DESCRIPTION;
     }
 
-    public function getPartTwoDescription() :string
+    public function getPartTwoDescription(): string
     {
         return <<<DESCRIPTION
 You notice that the device repeats the same frequency change list over and
@@ -100,28 +100,38 @@ What is the first frequency your device reaches twice?
 DESCRIPTION;
     }
 
-    public function getResult() :array
-    {
-        list($frequency, $frequencies) = $this->getFrequency();
+    public function getResult(int $part = DayInterface::ALL_PART): array
+    {   
+        $result = [];
 
-        return [$frequency, $this->getFrequencyReachedTwice($frequency, $frequencies)];
+        if (DayInterface::ALL_PART === $part || DayInterface::FIRST_PART === $part) {
+            $result[] = $this->getFrequency();
+        }
+
+        if (DayInterface::ALL_PART === $part || DayInterface::SECOND_PART === $part) {
+            $result[] = $this->getFrequencyReachedTwice();
+        }
+
+        return $result;
     }
 
-    public function getFrequency()
+    protected function getFilename(): string
+    {
+        return 'day_01.txt';
+    }
+    
+    private function getFrequency(): int
     {
         $frequency = 0;
 
         foreach ($this->getData() as $data) {
             $frequency += (int) $data;
-            $frequencies[] = $frequency;
         }
 
-        $frequencies = array_unique($frequencies);
-
-        return [$frequency, $frequencies];
+        return $frequency;
     }
 
-    public function getFrequencyReachedTwice($frequency, $frequencies)
+    private function getFrequencyReachedTwice($frequency = 0, $frequencies = [0]): int
     {
         $found = null;
 
@@ -141,10 +151,5 @@ DESCRIPTION;
         }
 
         return $found;
-    }
-
-    protected function getFilename() :string
-    {
-        return 'day_01.txt';
     }
 }

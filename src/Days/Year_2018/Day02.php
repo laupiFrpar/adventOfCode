@@ -2,19 +2,19 @@
 
 namespace Lopi\AdventOfCode\Days\Year_2018;
 
+use Lopi\AdventOfCode\DayInterface;
+
 /**
  * @author Pierre-Louis Launay <laupi.frpar@gmail.com>
  */
 class Day02 extends Day2018Abstract
 {
-    const DAY = '02';
-
-    public function getTitle() :string
+    public function getTitle(): string
     {
         return 'Day 2: Inventory Management System';
     }
 
-    public function getDescription() :string
+    public function getDescription(): string
     {
         return <<<DESCRIPTION
 You stop falling through time, catch your breath, and check the screen on the
@@ -62,7 +62,7 @@ What is the checksum for your list of box IDs?
 DESCRIPTION;
     }
 
-    public function getPartTwoDescription() :string
+    public function getPartTwoDescription(): string
     {
         return <<<DESCRIPTION
 Confident that your list of box IDs is complete, you're ready to find the boxes
@@ -89,17 +89,26 @@ fgij.)
 DESCRIPTION;
     }
 
-    public function getResult() :array
+    public function getResult(int $part = DayInterface::ALL_PART): array
     {
-        return [$this->getChecksum()];
+        $result = [];
+
+        if (DayInterface::ALL_PART === $part || DayInterface::FIRST_PART === $part) {
+            $result[] = $this->getChecksum();
+        }
+
+        if (DayInterface::ALL_PART === $part || DayInterface::SECOND_PART === $part) {
+        }
+
+        return $result;
     }
 
-    protected function getFilename() :string
+    protected function getFilename(): string
     {
         return 'day_02.txt';
     }
 
-    private function getChecksum()
+    private function getChecksum(): int
     {
         $frequencies = ['twice' => 0, 'three_times' => 0];
 
@@ -116,7 +125,7 @@ DESCRIPTION;
         return $frequencies['twice'] * $frequencies['three_times'];
     }
 
-    private function getFrequencyLetters($data)
+    private function getFrequencyLetters($data): array
     {
         $frequencyLetters = [];
 
