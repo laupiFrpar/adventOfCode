@@ -6,7 +6,7 @@ use Lopi\AdventOfCode\DayInterface;
 use Lopi\AdventOfCode\Days\Year_2018\Day03;
 use PHPUnit\Framework\TestCase;
 
-final class Day02Test extends TestCase
+final class Day03Test extends TestCase
 {
     public function testPartOne(): void
     {
