@@ -1,3 +1,5 @@
+from functions import *
+
 """
 https://adventofcode.com/2020/day/1
 --- Day 1: Report Repair ---
@@ -38,7 +40,6 @@ In your expense report, what is the product of the three entries that sum to 202
 
 def partOne(list):
   resultat = None
-
   for valeur1 in list:
     for valeur2 in list:
       if is2020(valeur1, valeur2):
@@ -72,8 +73,7 @@ def partTwo(list):
 def is2020(valeur1, valeur2, valeur3 = 0):
   return int(valeur1) + int(valeur2) + int(valeur3) == 2020
 
-fday01 = open("data/day01.txt")
-list = fday01.read().splitlines()
-fday01.close()
-print("part one : {}".format(partOne(list)))
-print("part two : {}".format(partTwo(list)))
+
+list = getListFromFile('01')
+displayPartOne(partOne(list))
+displayPartTwo(partTwo(list))
